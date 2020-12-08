@@ -13,9 +13,9 @@ generator client {
 
 model User {
   id        Int     @id @default(autoincrement())
-  name      String?
+  name      String? @db.VarChar(50) @default("")
   email     String  @unique
-  password  String  @db.VarChar(50)
+  password  String  
 }
 
 model Note {
@@ -23,5 +23,4 @@ model Note {
   userId    Int
   user      User    @relation(fields: [userId], references: [id])
   content   String  @db.VarChar(1000)
-
 }

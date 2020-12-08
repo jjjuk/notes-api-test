@@ -1,15 +1,17 @@
 version: '3.3'
 
 networks:
-  vpcbr:
+  test:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.18.0.1/16
+        - subnet: 174.18.0.1/16
 
 services:
   db:
     image: postgres   
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
     restart: always
     environment:
       POSTGRES_USER: prisma
@@ -18,14 +20,14 @@ services:
     ports:
       - 5432:5432
     networks:
-      vpcbr:
-        ipv4_address: 172.18.0.4
+      test:
+        ipv4_address: 174.18.0.4
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
     networks:
-      vpcbr:
-        ipv4_address: 172.18.0.5 
+      test:
+        ipv4_address: 174.18.0.5 
   
