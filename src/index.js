@@ -17,6 +17,9 @@ const cors = require('cors')({
 })
 app.use(cors) //Access-Control-Allow-Origin ¯\_(ツ)_/¯
 
+const cookieParser = require('cookie-parser')()
+app.use(cookieParser)
+
 app.use(express.json()) // think of XML server every time I type this line
 app.use(express.urlencoded({ extended: true }))
 
