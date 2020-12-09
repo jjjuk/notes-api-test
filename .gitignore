@@ -6,4 +6,4 @@ prisma/migrations
 prisma/dev.db
 yarn-error.log
 
-*.env*
+# *.env*
