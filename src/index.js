@@ -41,11 +41,6 @@ app.use(cookieParser) // https://preview.redd.it/t9y87m5f0pz41.jpg?width=640&cro
 
 app.use(clients)
 
-app.use((req, _, next) => {
-  console.log(req.prisma)
-  next()
-})
-
 app.use(publicRoutes)
 
 app.use(isAuthenticated)
