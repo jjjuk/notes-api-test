@@ -22,6 +22,7 @@ services:
     networks:
       test:
         ipv4_address: 174.18.0.4
+
   adminer:
     image: adminer
     restart: always
@@ -29,5 +30,27 @@ services:
       - 8080:8080
     networks:
       test:
-        ipv4_address: 174.18.0.5 
+        ipv4_address: 174.18.0.5
   
+  redis-master:
+    image: 'bitnami/redis:latest'
+    ports:
+      - 6379:6379
+    environment:      
+      - REDIS_PASSWORD=FiGreo32reoqowR1321e12
+    networks:
+      test:
+        ipv4_address: 174.18.0.6 
+
+  redis-commander:  
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+    - REDIS_HOST=174.18.0.6
+    - REDIS_PORT=6379
+    - REDIS_PASSWORD=FiGreo32reoqowR1321e12
+    ports:
+    - "8081:8081"
+    networks:
+     test:
+       ipv4_address: 174.18.0.7 

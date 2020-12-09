@@ -1,10 +1,29 @@
 require('dotenv').config()
-const { PrismaClient } = require('@prisma/client')
-const createError = require('http-errors') //Im lazy
-const express = require('express')
+const { magentaBright: pink, cyanBright: cyan } = require('chalk') //log colors
 
-const prisma = new PrismaClient() //it's my favourite ORM (but it's kinda smth bigger then just ORM)
+const express = require('express')
 const app = express()
+
+const { publicRoutes, main } = require('./routes')
+const { isAuthenticated, clients, redisClient } = require('./middleware')
+
+const session = require('express-session')
+const { v4: genuuid } = require('uuid')
+const RedisStore = require('connect-redis')(session)
+
+app.use(
+  session({
+    store: new RedisStore({ client: redisClient }),
+    cookie: { secure: false, maxAge: 86400000, httpOnly: true },
+    secret: 'rediska',
+    resave: false,
+    saveUninitialized: true,
+    genid: () => genuuid(),
+  })
+)
+
+app.use(express.json()) // think of XML server every time I type this line
+app.use(express.urlencoded({ extended: true }))
 
 const pino = require('express-pino-logger')({
   prettyPrint: true,
@@ -18,13 +37,25 @@ const cors = require('cors')({
 app.use(cors) //Access-Control-Allow-Origin ¯\_(ツ)_/¯
 
 const cookieParser = require('cookie-parser')()
-app.use(cookieParser)
+app.use(cookieParser) // https://preview.redd.it/t9y87m5f0pz41.jpg?width=640&crop=smart&auto=webp&s=2e9d017408fcc1f77e8b1ac2e7c67fe8cdc1ac31
 
-app.use(express.json()) // think of XML server every time I type this line
-app.use(express.urlencoded({ extended: true }))
+app.use(clients)
 
-app.post('/hi', (req, res) => {
-  res.send('Hi!')
+app.use((req, _, next) => {
+  console.log(req.prisma)
+  next()
 })
 
-app.listen(3000)
+app.use(publicRoutes)
+
+app.use(isAuthenticated)
+
+app.use(main)
+
+const port = 4000
+app.listen(port, () => {
+  console.log(
+    pink('✨ Test app running at'),
+    cyan(`http://localhost:${port} ✨`)
+  )
+})
