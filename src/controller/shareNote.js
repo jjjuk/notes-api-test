@@ -7,10 +7,10 @@ const { sign } = require('jsonwebtoken')
  * @param {Response} res Response.
  */
 const shareNote = async (req, res) => {
-  const { id } = req.params
+  const id = Number(req.params.id)
   const token = sign({ id }, 'verysecret')
 
-  res.status(200).json({ link: `http://localhost:4000/note/share/${token}` })
+  res.status(200).json({ link: `http://localhost:4000/shared/note/${token}` })
 }
 
 module.exports = {

@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }))
 const pino = require('express-pino-logger')({
   prettyPrint: true,
 })
-app.use(pino) //logs no longer hurt my eyes
+// app.use(pino) //logs no longer hurt my eyes
 
 const cors = require('cors')({
   origin: '*',
@@ -48,9 +48,14 @@ app.use(isAuthenticated)
 app.use(main)
 
 const port = 4000
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(
     pink('✨ Test app running at'),
     cyan(`http://localhost:${port} ✨`)
   )
 })
+
+module.exports = {
+  server,
+  redisClient,
+}

@@ -20,7 +20,7 @@ const upsertNote = async (req, res) => {
     },
   })
 
-  if (id) res.status(201).json({ note })
+  if (!id) res.status(201).json({ note })
   else res.status(200).json({ note })
 }
 

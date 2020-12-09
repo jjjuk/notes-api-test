@@ -8,7 +8,7 @@ const { deleteAllSessionIds } = require('../utils')
  */
 const logout = (req, res) => {
   const userId = req.session.userId
-  deleteAllSessionIds(userId, () => {
+  deleteAllSessionIds(req, userId, () => {
     req.session.destroy((err) => {
       if (!!err) res.status(500).json({ message: 'Something went wrong' })
       else res.status(200).json({ message: 'Successfully logged out.' })

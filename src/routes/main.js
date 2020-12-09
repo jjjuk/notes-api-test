@@ -16,7 +16,7 @@ route.get('/user/notes', getMyNotes)
 
 route.delete('/note/:id', deleteNote)
 
-route.post('share/note/:id', shareNote)
+route.post('/note/:id/share', shareNote)
 
 route.post('/logout', logout)
 

@@ -8,14 +8,17 @@ const { verify } = require('jsonwebtoken')
  */
 const getSharedNoteContetnt = async (req, res) => {
   const { prisma } = req
-  const { id } = verify(req.params.token, 'verysecret')
-  if (!id) res.status(400).json({ message: 'Invalid token!' })
-  else {
-    const note = await prisma.note.findUnique({ where: { id } })
 
-    if (!note) res.status(404).json({ message: 'Note not found!' })
+  if (!req.params.token) res.status(400).json({ message: 'Invalid token!' })
+  else {
+    const { id } = verify(req.params.token, 'verysecret')
+
+    if (!id) res.status(400).json({ message: 'Invalid token!' })
     else {
-      res.status(200).send(note.content)
+      const note = await prisma.note.findUnique({ where: { id } })
+
+      if (!note) res.status(404).json({ message: 'Note not found!' })
+      else res.status(200).send(note.content)
     }
   }
 }

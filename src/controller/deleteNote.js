@@ -7,7 +7,7 @@ const { Request, Response } = require('express')
  */
 const deleteNote = async (req, res) => {
   const { prisma } = req
-  const { id } = req.params
+  const id = Number(req.params.id)
   const note = await prisma.note.delete({ where: { id } })
   res.status(200).json({ note })
 }
