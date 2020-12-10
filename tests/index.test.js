@@ -49,8 +49,6 @@ describe('test endpoints', () => {
       })
     expect(res.statusCode).toEqual(200)
     expect(res.body).toHaveProperty('note')
-
-    noteId = res.body.note.id
   })
 
   it('should show me my notes', async () => {
