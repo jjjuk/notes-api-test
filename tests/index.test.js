@@ -42,7 +42,7 @@ describe('test endpoints', () => {
       .post('/note')
       .set('Cookie', cookies)
       .send({
-        id: 1,
+        id: noteId,
         content: 'Hello everybody in this world!',
       })
     expect(res.statusCode).toEqual(200)
