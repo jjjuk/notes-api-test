@@ -35,6 +35,8 @@ describe('test endpoints', () => {
       })
     expect(res.statusCode).toEqual(201)
     expect(res.body).toHaveProperty('note')
+
+    noteId = res.body.note.id
   })
 
   it('should update a note', async () => {
