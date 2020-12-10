@@ -1,6 +1,8 @@
 const request = require('supertest-session')
 const { server } = require('../src')
 
+//Эти тесты ужасные я обещаю научиться писать их круто.
+
 let link
 let cookies
 let noteId = 1
